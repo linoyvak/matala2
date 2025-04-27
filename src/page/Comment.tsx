@@ -11,7 +11,7 @@ interface IFormInput {
 
 
 function Comment(props:IProp) {
-    const {register,handleSubmit,formState:{errors}} = useForm<IFormInput>(); 
+    const {register,handleSubmit,setValue,formState:{errors}} = useForm<IFormInput>(); 
     
     let [comments,setComments] = useState<IComment[]>([]);
 
@@ -32,6 +32,7 @@ function Comment(props:IProp) {
         Fetch("/comments/","POST",{comment:data.context,postId:props.avticePost?._id}).then(data=>{
             alert("התגובה נוסף בהצלחה");
             setComments([...comments,{...data,owner:{_id:props.userPaylod._id}}])
+            setValue("context","");
         }).catch(err=>{
             alert("התגובה נכשל ");
             console.log(err)
@@ -47,8 +48,9 @@ function Comment(props:IProp) {
         })
     }
     const updateCommentHandler = (comment:IComment)=>{
-        Fetch("/comments/"+comment._id , "PUT",{comment:"update"}).then(res=>{
-            comment.comment = prompt("הזן את התגובתך") as string;
+        let newComment = prompt("הזן את התגובתך") as string;
+        Fetch("/comments/"+comment._id , "PUT",{comment:newComment}).then(res=>{
+            comment.comment = newComment;
             alert("התגובה נערכה בהצלחה")
             setComments([...comments]);
         }).catch(err=>{
@@ -59,6 +61,7 @@ function Comment(props:IProp) {
     const likeHandler = ()=>{
         Fetch(`/posts/${props.avticePost?._id}/like` ,"POST",{userId:props.userPaylod._id}).then(res=>{
             console.log(res)
+            alert("עשית ליק לפוסט")
         }).catch(err=>{
             console.log(err)
         })
@@ -66,31 +69,34 @@ function Comment(props:IProp) {
 
   
     return (
-        <div className="comment_component">
-            <h1 className="size60 underline">{props.avticePost?.title}</h1>
-            {
-                <button className="margin-auto" onClick={likeHandler}>LIKE</button>
-            }
-
+        <div className="comment_component d-flex flex-column justify-content-center ">
+            <h1 className="m-2">
+                נושא: {props.avticePost?.title}
+                <button className="btn "  onClick={likeHandler}> 👍 </button>
+            </h1>
+            <span className="mb-5 text-center fs-4">{props.avticePost?.content}</span>
             
+                        
             <h1 className="margin-top50 underline">רשימת תגובות</h1>
             {
                 comments.map(comment=>{
                     return(
-                        <div className="comment_item border margin10 flex-column gap10 padding10" key={comment._id}>
-                            <div className="author center bold">{comment.owner.username || "me"}</div>
+                        <div className="comment_item w-50 m-auto mb-3 border p-4" key={comment._id}>
+                            <div className="author text-decoration-underline fs-4 text-center">{comment.owner.username || "me"}</div>
                             <div className="comment ">{comment.comment}</div>
-                            {comment.owner._id==props.userPaylod._id && <button onClick={()=>deleteCommentHandler(comment)}>מחק</button>}
-                            {comment.owner._id==props.userPaylod._id && <button onClick={()=>updateCommentHandler(comment)}>עדכן</button>}
+                            <div className="text-center">
+                                {comment.owner._id==props.userPaylod._id && <button onClick={()=>deleteCommentHandler(comment)}>מחק</button>}
+                                {comment.owner._id==props.userPaylod._id && <button onClick={()=>updateCommentHandler(comment)}>עדכן</button>}
+                            </div>
                         </div>
                     )
                 })
             }{
                 isLoggedIn() &&
-                <form className="flex-column gap10" onSubmit={handleSubmit(submitHandler)}>
+                <form className="m-auto d-flex flex-column gap-3 w-50 p-4 border" onSubmit={handleSubmit(submitHandler)}>
                     <h1>הוסף הערה</h1>
                     <textarea  {...register("context",{required:"שדה זה חובה"})} />
-                    {errors.context && <span className="red size10">{errors.context.message}</span>}
+                    {errors.context && <span className="text-danger">{errors.context.message}</span>}
                     <input type="submit" />
                 </form>
             }

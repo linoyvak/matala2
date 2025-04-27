@@ -1,7 +1,7 @@
 import IUserPayload from "./interface/IUserPayload";
 import { IMethod } from "./interface/types";
 
-const serverUrl = "http://localhost:3002";
+const serverUrl = "http://localhost:3003";
 
 function Fetch<T=any>(api:string, method:IMethod, body={}):Promise<T>{
     const token = localStorage.getItem("token");
@@ -35,6 +35,7 @@ function getUserPayload():IUserPayload{
     else
         return {} as IUserPayload;
 }
+
 
 
 export {Fetch}

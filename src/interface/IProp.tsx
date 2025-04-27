@@ -10,6 +10,7 @@ export interface IGlobalState{
     isLogin         :boolean;
     avticePost      :IPost|null;
     userPaylod      :IUserPayload;
+
     setPage         :Dispatch<SetStateAction<pageType>>;
     setToken        :Dispatch<SetStateAction<string>>;
     setIsLogin      :Dispatch<SetStateAction<boolean>>;
