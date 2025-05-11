@@ -9,6 +9,10 @@ const validation = {
         minLength : {value:6  , message:"must between 6 - 20"},
         maxLength : {value:20 , message:"must between 6 - 20"},
     },
+    passwordNoRequire:{
+        minLength : {value:6  , message:"must between 6 - 20"},
+        maxLength : {value:20 , message:"must between 6 - 20"},
+    },
     email:{
         required : "שדה זה חובה",
     },
