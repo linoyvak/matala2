@@ -19,7 +19,7 @@ export default function Profile(props:IProp){
 
 
         useEffect(()=>{
-            Fetch("/user/","GET").then(data=>{
+            Fetch<IUserProfile>("/user/","GET").then(data=>{
                 setIsLoading(true)
                 setUserProfile(data)
             })
@@ -41,7 +41,7 @@ export default function Profile(props:IProp){
     return(
         <form className="text-center" onSubmit={handleSubmit(submitHandler)}>
             <div className="card-body">
-                <h5 className="card-title m-4">פרטי משתמש</h5>
+                <h5 className="card-title m-4">Profile</h5>
                 <br/>
                 <p className="card-text">email : {userProfile.email}</p>
                 <br/>

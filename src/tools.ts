@@ -1,3 +1,4 @@
+import IPost from "./interface/IPost";
 import IUserPayload from "./interface/IUserPayload";
 import { IMethod } from "./interface/types";
 
@@ -41,3 +42,5 @@ function getUserPayload():IUserPayload{
 export {Fetch}
 export {isLoggedIn}
 export {getUserPayload}
+
+

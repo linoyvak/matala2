@@ -25,15 +25,18 @@ function App() {
 
 	const globalState = {userPaylod, setUserPaylod,avticePost, setAvticePost,page, setPage,token,setToken,isLogin,setIsLogin} as IGlobalState;
 
+
 	useEffect(()=>{
 		setIsLogin(isLoggedIn());
 		setIsLoading(true)
 	},[]);
 	
+
+
 	if(!isLoading)
 		return <Loading/>
 	return (
-		<div className='App_component rtl p-3'>
+		<div className='App_component ltr p-3'>
 			<Menu {...globalState} />
 			{ page == "Home"     && <Home      {...globalState}/> }
 			{ page == "Login"    && <Login     {...globalState}/> }

@@ -8,11 +8,10 @@ interface IFormInput {
     username    :string;
     email       :string;
     password    :string;
-    bio    :string;
-    url    :string;
+
 }
 
-function Login(props:IProp){
+export default function Login(props:IProp){
     return (
         <div className="loginAndregister_componnet contianer">
             <div className="row">
@@ -23,18 +22,21 @@ function Login(props:IProp){
     )
 }
 
+
 function LoginForm(props:IProp){
     const {register,handleSubmit,formState: { errors }} = useForm<IFormInput>(); 
 
     const submitHandler = (data:IFormInput)=>{
-        Fetch<IUserPayload>("/auth/login","POST",data).then(res=>{
+        Fetch<IUserPayload>("/auth/login","POST",data)
+        .then(res=>{
             localStorage.setItem("token",res.accessToken);
             localStorage.setItem("payload",JSON.stringify(res));
             props.setIsLogin(true);
             props.setUserPaylod(res);
             props.setPage("Home");
-        }).catch(err=>{
-            alert("המייל או הסיסמה אינם נכונים");
+        })
+        .catch(err=>{
+            alert("email or password isnt corrent ");
             console.log(err);
         })
     };
@@ -43,7 +45,7 @@ function LoginForm(props:IProp){
         <div className="row justify-content-center col-6">
             <div className="col-md-6">
                 <div className="card shadow-sm">
-                    <h4 className="card-header bg-primary text-white text-center">טופס התחברות</h4>
+                    <h4 className="card-header bg-primary text-white text-center">login form</h4>
 
                     <div className="card-body">
                         <form className="login_component" onSubmit={handleSubmit(submitHandler)}>
@@ -68,18 +70,16 @@ function LoginForm(props:IProp){
 }
 
 function RegisterForm(props:IProp){
-    const {register,setValue,handleSubmit,formState: { errors }} = useForm<IFormInput>(); 
+    const {register,reset,handleSubmit,formState: { errors }} = useForm<IFormInput>(); 
 
     function submitHandler(data:IFormInput){
-        Fetch("/auth/register","POST",data).then(res=>{
-            alert("נרשמת בהצלחה");
-            setValue("username","");
-            setValue( "email","");
-            setValue("password" ,"");
-            setValue( "bio" ,"");
-            setValue("url","");
-        }).catch( err => {
-            alert("המשתמש כבר קיים במערכת");
+        Fetch("/auth/register","POST",data)
+        .then(res=>{
+            alert("register successed");
+            reset()
+        })
+        .catch( err => {
+            alert("user alright exist");
         })
     };
 
@@ -87,7 +87,7 @@ function RegisterForm(props:IProp){
         <div className="row justify-content-center col-6">
             <div className="col-md-6">
                 <div className="card shadow-sm">
-                    <h4 className="card-header bg-primary text-white text-center">טופס הרשמה</h4>
+                    <h4 className="card-header bg-primary text-white text-center">register form</h4>
 
                     <div className="card-body">
                         <form className="login_component" onSubmit={handleSubmit(submitHandler)}>
@@ -115,5 +115,3 @@ function RegisterForm(props:IProp){
     )
 }
 
-
-export default Login;

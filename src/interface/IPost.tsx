@@ -8,3 +8,5 @@ export default interface IPost{
         username :string,
     }
 }
+
+

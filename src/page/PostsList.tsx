@@ -18,7 +18,8 @@ function PostsList(props:IProp) {
     const [ posts  , setPosts  ] = useState<IPost[]>([]);
 
     useEffect(()=>{
-        Fetch<IPost[]>("/posts/","GET").then(posts=>{
+        Fetch<IPost[]>("/posts/","GET")
+        .then(posts=>{
             setPosts(posts);
             setIsLoad(true);
         }).catch(err=>{
@@ -28,12 +29,12 @@ function PostsList(props:IProp) {
 
     const submitHandler=(data:IFormInput)=>{
         Fetch("/posts/","POST",data).then(data=>{
-            alert("הפוסט נשלח בהצלחה");
+            alert("post adding");
             setPosts([...posts,data])
             setValue("content","")
             setValue("title","")
         }).catch(err=>{
-            alert("הפוסט נכשל ");
+            alert("post failed");
             console.log(err)
         })
     };
@@ -58,7 +59,7 @@ function PostsList(props:IProp) {
         Fetch("/posts/"+post._id , "PUT",{title:newTitle,content:newContext}).then(res=>{
             post.title = newTitle;
             post.content = newContext;
-            alert("הפוסט נערך בהצלחה")
+            alert("post update")
             setPosts([...posts]);
             props.setPage("PostList")
         }).catch(err=>{
@@ -72,7 +73,7 @@ function PostsList(props:IProp) {
     else{
         return (
             <div className="PostsList_component d-flex flex-column justify-content-center">
-                <h1 className="underline mb-4">רשימת פוסטים</h1>
+                <h1 className="underline mb-4">posts list</h1>
                 {
                     posts.map(post=>{
                         return(
@@ -83,29 +84,28 @@ function PostsList(props:IProp) {
                                     <div className="likes text-center" >likes:{post.likes.length}  </div>
                                 </div>
                                 <div className="text-center">
-                                    {(post.owner._id==props.userPaylod._id) && <button onClick={()=>deleteCommentHandler(post)}>מחק</button>}
-                                    {(post.owner._id==props.userPaylod._id) && <button onClick={()=>updateCommentHandler(post)}>עדכן</button>}
+                                    {(post.owner._id==props.userPaylod._id) && <button onClick={()=>deleteCommentHandler(post)}>Delete</button>}
+                                    {(post.owner._id==props.userPaylod._id) && <button onClick={()=>updateCommentHandler(post)}>Update</button>}
                                 </div>
                             </div>
                         )
                     })
                 }
-                {
-                    isLoggedIn() &&
-                    <form className="m-auto d-flex flex-column gap-3 w-50 p-4 border " onSubmit={handleSubmit(submitHandler)}>
-                        <h1 className="margin-bottom0 underline">הוספת פוסט</h1>
+            
+                <form className="m-auto d-flex flex-column gap-3 w-50 p-4 border " onSubmit={handleSubmit(submitHandler)}>
+                    <h1 className="margin-bottom0 underline">add post</h1>
 
-                        <label>title</label>
-                        <input type="text" className="rtl" {...register("title" , validation.title)} />
-                        {errors.title && <span className="text-danger">{errors.title.message}</span>}
+                    <label>title</label>
+                    <input type="text"  {...register("title" , validation.title)} />
+                    {errors.title && <span className="text-danger">{errors.title.message}</span>}
 
-                        <label>context</label>
-                        <textarea className="rtl"  {...register("content" , validation.context)} />
-                        {errors.content && <span className="text-danger">{errors.content.message}</span>}
+                    <label>context</label>
+                    <textarea {...register("content" , validation.context)} />
+                    {errors.content && <span className="text-danger">{errors.content.message}</span>}
 
-                        <input className="" type="submit"  />
-                    </form>
-                }
+                    <input className="" type="submit"  />
+                </form>
+                
 
 
             </div>
