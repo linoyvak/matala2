@@ -1,0 +1,90 @@
+/* צבעים */
+:root {
+    --primary-color: #3498db; /* כחול בהיר */
+    --secondary-color: #2ecc71; /* ירוק */
+    --accent-color: #e74c3c; /* אדום */
+    --background-color: #f4f4f9; /* צבע רקע בהיר */
+    --text-color: #333; /* צבע טקסט כהה */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    direction: ltr; /* מיקום תצוגה משמאל לימין */
+}
+
+/* עיצוב כפתור לייק */
+.likebtn {
+    width: 50px;
+    height: 50px;
+    padding: 0px 2px 0px 2px;
+    background-color: var(--primary-color); /* צבע רקע כחול */
+    border-radius: 50%;
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.likebtn:hover {
+    font-size: 25px;
+    background-color: var(--secondary-color); /* שינוי צבע לחצו עם צבע ירוק */
+}
+
+/* עיצוב כותרות */
+h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+    color: var(--primary-color); /* צבע כחול לכותרות */
+}
+
+/* עיצוב כפתורים באופן כללי */
+button {
+    display: inline-block;
+    cursor: pointer;
+    background-color: var(--secondary-color); /* צבע רקע ירוק */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--accent-color); /* צבע אדום בהhover */
+}
+
+/* עיצוב קישורים */
+a {
+    color: var(--primary-color); /* צבע כחול לקישורים */
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--secondary-color); /* שינוי צבע לכחול ירוק בהhover */
+}
+
+/* עיצוב טפסים */
+input[type="text"],
+input[type="email"],
+textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* עיצוב select */
+select {
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* מיקום תצוגת ימין-שמאל או שמאל-ימין */
+.rtl {
+    direction: rtl;
+}
+
+.ltr {
+    direction: ltr;
+}
